@@ -4,10 +4,13 @@ WTF is a command-line tool that converts natural language descriptions into shel
 
 ## Installation
 
-Install from PyPI:
+~~Install from PyPI:~~
+(not yet available)
+
+for now, you can install from the source code:
 
 ```bash
-pip install wtf-shell
+pip install -e .
 ```
 
 ## Configuration
