@@ -28,6 +28,7 @@ dependencies = [
     "anthropic",
     "rich",
     "pyperclip",
+    "pytest>=8.3.4",
 ]
 
 [project.urls]
@@ -37,3 +38,14 @@ Repository = "https://github.com/pfbyjy/wtf.git"
 [project.scripts]
 wtf = "wtf:main"
 wtf-config = "wtf.config_cmd:cli"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that require API keys (deselect with '-m \"not integration\"')",
+]
