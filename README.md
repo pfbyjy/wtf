@@ -83,6 +83,34 @@ wtf --history
   - claude-3-5-haiku
   - claude-3-5-opus
 
+## Testing
+
+Install test dependencies and package
+```bash
+pip install -e ".[test]"
+```
+
+Run all tests (including integration tests)
+```bash
+pytest -v
+```
+
+Run only unit tests (skip integration tests that need API keys)
+```bash
+pytest -v -m "not integration"
+```
+
+Run with coverage report
+```bash
+pytest -v --cov=wtf
+```
+
+Run with coverage and generate HTML report
+```bash
+pytest -v --cov=wtf --cov-report=html
+```
+
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
