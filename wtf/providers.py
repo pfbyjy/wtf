@@ -5,14 +5,42 @@ from anthropic import Anthropic
 from wtf.config import Config
 import os
 import logging
+import platform
+import subprocess
 
 logger = logging.getLogger('wtf')
 
 class AIProvider:
+    def detect_shell(self) -> str:
+        """Detect the current shell"""
+        # First try getting it from SHELL env var
+        shell = os.environ.get('SHELL', '')
+        if shell:
+            return os.path.basename(shell)
+            
+        # Try getting from $0
+        try:
+            shell = subprocess.check_output(['ps', '-p', str(os.getppid()), '-o', 'comm=']).decode().strip()
+            if shell:
+                return os.path.basename(shell)
+        except:
+            pass
+            
+        # Fallback detection methods
+        if platform.system() == 'Windows':
+            # Check if we're in PowerShell
+            if 'POWERSHELL_VERSION' in os.environ:
+                return 'powershell'
+            return 'cmd'
+            
+        # Default to zsh for Unix-like systems
+        return 'zsh'
+
     def create_prompt(self, command: str) -> str:
-        return f"""Convert this natural language command into a shell pipeline. 
+        shell = self.detect_shell()
+        return f"""Convert this natural language command into a {shell} command. 
 Respond with only the shell command, no explanations or markdown.
-The command should work on Unix-like systems.
+Make sure the command is compatible with {shell}.
 
 Natural language: {command}"""
 
